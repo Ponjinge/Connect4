@@ -6,4 +6,5 @@
  *
  */
 module ConnectProject {
+	requires java.desktop;
 }
