@@ -1,5 +1,4 @@
 package gameFiles;
-import java.util.Scanner;
 
 
 public class GameLogic extends VictoryCheck{
@@ -15,13 +14,13 @@ public class GameLogic extends VictoryCheck{
 		playerName[1] = "P1";
 		playerName[2] = "P2";
 		System.out.println("NEW GAME(0)  OR  LOAD GAME(1)");
-		newOrLoad=userInput(tab);
+		newOrLoad=userInputBinary();
 		if(newOrLoad==1) {
 			fileReader(tab, gameChoice, npcLevel, turn, prevMove, playerName);
 		}else {
 			
 			System.out.println("Local Multiplayer (0) OR Single Player (1)");
-			gameChoice=userInput(tab);
+			gameChoice=userInputBinary();
 			//get Player name
 			if(gameChoice==1) {
 				System.out.println("Choose your opponent:");
@@ -43,9 +42,10 @@ public class GameLogic extends VictoryCheck{
 			}
 				
 			//Make turn random later, for now we assume the player 1 starts every time;
-			turn=1;
+			System.out.println("Who Goes first? P1(0) or P2(1)");
+			turn=userInputBinary()+1;
 		}
-		saveFile(tab, gameChoice, npcLevel, turn, prevMove, playerName);
+
 		
 		//Game
 		
@@ -66,7 +66,8 @@ public class GameLogic extends VictoryCheck{
 						System.out.println("GAME SAVED! SEE YOU LATER");
 						break outer ;
 					}else {
-						dripDown(tab,prevMove, turn);
+						dripDown(tab,playerInput, turn);
+						prevMove=playerInput;
 					}
 				}
 				turn=1;
@@ -77,13 +78,27 @@ public class GameLogic extends VictoryCheck{
 					System.out.println("GAME SAVED! SEE YOU LATER");
 					break outer ;
 				}else {
-					dripDown(tab,prevMove, turn);
+					dripDown(tab,playerInput, turn);
+					prevMove=playerInput;
 				}
 				turn=2;
 				
 			}
 			checkConnect4(tab, playerName);
+			boolean drawcondition=true;
+			for(int i=0; i<tab.length; i++) {
+				if(isFullDrawChecker(tab, i)==false) {
+					drawcondition=false;
+				}
+				
+			}
+			if(drawcondition==true) {
+				System.out.println("DRAW , NO ONE WINS");
+				break outer;
+			}
+			
 		}
+		tabDisplay(tab);
 			
 		
 	}

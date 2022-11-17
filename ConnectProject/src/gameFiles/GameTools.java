@@ -12,7 +12,7 @@ public class GameTools {
 	public static int[][] dripDown( int[][] tab, int column , int turn) {
 	    int i=0;
 	    tab[i][column]=turn;
-	    	while(tab[i+1][column]==0 && i<tab.length-2){
+	    	while(i<tab.length-1 && tab[i+1][column]==0){
 	    		tab[i+1][column]=turn;
 	    		tab[i][column]=0;
 	    		i++;
@@ -40,6 +40,23 @@ public class GameTools {
 		
 	}
 	
+	public static int userInputBinary() {
+		int input=0;
+		Scanner scan = new Scanner(System.in);
+		boolean validInput = false;
+		while(validInput == false) {
+			if(scan.hasNextInt()) {
+				input = scan.nextInt();
+				if(input==0 || input ==1 ) {
+					
+					validInput = true;
+				}
+			}
+		}
+		return input;
+		
+	}
+	
 	public static int[][] tableReset(int[][] tab , int column){
 	    int i=0;
 		while(tab[i][column]==0){
@@ -52,7 +69,19 @@ public class GameTools {
 
 	public static boolean isFull(int[][]tab, int column){
 	    if(tab[0][column]>0){
-	        return true;
+	    	System.out.println("You can't go there. It's full!!!");
+	    	return true;
+	        
+	    }else{
+	        return false;
+	    }
+	}
+	
+	public static boolean isFullDrawChecker(int[][]tab, int column){
+	    if(tab[0][column]>0){
+	    	
+	    	return true;
+	        
 	    }else{
 	        return false;
 	    }
@@ -60,12 +89,23 @@ public class GameTools {
 	
 	public static void tabDisplay(int[][]tab) {
 		for(int i=0;i<tab.length;i++) {
+			System.out.print("| ");
 			for(int j=0; j<tab[0].length;j++) {
-				System.out.print(tab[i][j]+" | ");
-				
+				if(tab[i][j]==1) {
+					System.out.print("X | ");
+				}
+				if(tab[i][j]==2) {
+					System.out.print("O | ");
+				}
+				if(tab[i][j]==0) {
+					System.out.print("  | ");
+				}
+				if(tab[i][j]==3) {
+					System.out.print("! | ");
+				}
 			}
 			System.out.println("");
-			System.out.print("---------------------------");
+			System.out.print("-----------------------------");
 			System.out.println("");
 		}
 	}

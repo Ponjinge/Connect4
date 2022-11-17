@@ -13,6 +13,10 @@ public class VictoryCheck extends GameTools{
 						if(tab[i][j]==tab[i+1][j] && tab[i+1][j]==tab[i+2][j] && tab[i+2][j]==tab[i+3][j]){
 							for(int k=1; k<=2; k++) {
 								if(tab[i][j]==k) {
+									tab[i][j]=3;
+									tab[i+1][j]=3;
+									tab[i+2][j]=3;
+									tab[i+3][j]=3;
 									System.out.println("Victory for "+playerNames[k]);
 								}
 							}
@@ -25,6 +29,10 @@ public class VictoryCheck extends GameTools{
 						if(tab[i][j]==tab[i][j+1] && tab[i][j+1]==tab[i][j+2] && tab[i][j+2]==tab[i][j+3]) {
 							for(int k=1; k<=2; k++) {
 								if(tab[i][j]==k) {
+									tab[i][j]=3;
+									tab[i][j+1]=3;
+									tab[i][j+2]=3;
+									tab[i][j+3]=3;
 									System.out.println("Victory for "+playerNames[k]);
 								}
 							}
@@ -36,6 +44,10 @@ public class VictoryCheck extends GameTools{
 						if(tab[i][j]==tab[i+1][j+1] && tab[i+1][j+1]==tab[i+2][j+2] && tab[i+2][j+2]==tab[i+3][j+3]) {
 							for(int k=1; k<=2; k++) {
 								if(tab[i][j]==k) {
+									tab[i][j]=3;
+									tab[i+1][j+1]=3;
+									tab[i+2][j+2]=3;
+									tab[i+3][j+3]=3;
 									System.out.println("Victory for "+playerNames[k]);
 								}
 							}
@@ -48,6 +60,10 @@ public class VictoryCheck extends GameTools{
 						if(tab[i][j]==tab[i+1][j-1] && tab[i+1][j-1]==tab[i+2][j-2] && tab[i+2][j-2]==tab[i+3][j-3]){
 							for(int k=1; k<=2; k++) {
 								if(tab[i][j]==k) {
+									tab[i][j]=3;
+									tab[i+1][j-1]=3;
+									tab[i+2][j-2]=3;
+									tab[i+3][j-3]=3;
 									System.out.println("Victory for "+playerNames[k]);
 								}
 							}
