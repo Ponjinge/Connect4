@@ -15,11 +15,9 @@ public class GameLogic extends VictoryCheck{
 		playerName[1] = "P1";
 		playerName[2] = "P2";
 		System.out.println("NEW GAME(0)  OR  LOAD GAME(1)");
-		//Create option box
+		newOrLoad=userInput(tab);
 		if(newOrLoad==1) {
-			//getchoices from variables in file
-			//get table from variables in file
-			//get turn from variables in file
+			fileReader(tab, gameChoice, npcLevel, turn, prevMove, playerName);
 		}else {
 			
 			System.out.println("Local Multiplayer (0) OR Single Player (1)");
@@ -47,10 +45,11 @@ public class GameLogic extends VictoryCheck{
 			//Make turn random later, for now we assume the player 1 starts every time;
 			turn=1;
 		}
+		saveFile(tab, gameChoice, npcLevel, turn, prevMove, playerName);
 		
 		//Game
-		//Keylisten
-		while(checkConnect4(tab, playerName)==false) {
+		
+		outer: while(checkConnect4(tab, playerName)==false) {
 			tabDisplay(tab);
 			System.out.println(playerName[turn]+"'s turn!");
 			System.out.println("Choose a lane "+playerName[turn]+"!!!");
@@ -61,12 +60,27 @@ public class GameLogic extends VictoryCheck{
 					
 			
 				}else {
-					dripDown(tab,userInput(tab), turn);
+					int playerInput =userInput(tab);
+					if(playerInput==9){
+						saveFile(tab, gameChoice, npcLevel, turn, prevMove, playerName);
+						System.out.println("GAME SAVED! SEE YOU LATER");
+						break outer ;
+					}else {
+						dripDown(tab,prevMove, turn);
+					}
 				}
 				turn=1;
 			}else {
-				dripDown(tab,userInput(tab), turn);
+				int playerInput = userInput(tab);
+				if(playerInput==9){
+					saveFile(tab, gameChoice, npcLevel, turn, prevMove, playerName);
+					System.out.println("GAME SAVED! SEE YOU LATER");
+					break outer ;
+				}else {
+					dripDown(tab,prevMove, turn);
+				}
 				turn=2;
+				
 			}
 			checkConnect4(tab, playerName);
 		}
