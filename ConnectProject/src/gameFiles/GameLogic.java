@@ -1,5 +1,5 @@
 package gameFiles;
-
+//Imports
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -18,6 +18,7 @@ public class GameLogic extends ComputerLogic{
 		//Our multidimensional array that is the backbone of the game
 		int prevMove=0;
 		//user's previous move
+		int turnCount=1;
 		String[] playerName= new String[3];
 		playerName[1] = "P1";
 		playerName[2] = "P2";
@@ -30,11 +31,12 @@ public class GameLogic extends ComputerLogic{
 			try {
 			      File save = new File("saveFile.txt");
 			      Scanner myReader = new Scanner(save);
+			      //Create a new scanner that will parse our data 
 			      for(int i=0;i<tab.length;i++) {
 		          	for(int j=0;j<tab[0].length;j++) {
 		          		String data = myReader.nextLine();
 		    	        tab[i][j]=Integer.parseInt(data);
-		    	        
+		    	        //load our saved board
 		          	}
 			      }
 			      
@@ -57,7 +59,7 @@ public class GameLogic extends ComputerLogic{
 			    } catch (FileNotFoundException e) {
 			      System.out.println("An error occurred.");
 			      e.printStackTrace();
-			    }
+			    }//Exception in case no file can be found
 			
 			//We read the save and prepare the game, assigning all the variables to the information given in the save file
 		}else {
@@ -68,7 +70,7 @@ public class GameLogic extends ComputerLogic{
 			if(gameChoice==1) {
 				//User is playing alone
 				System.out.println("Choose your opponent:");
-				System.out.println("Standard CPU : Beginner(1), Intermediate(2), Hard(Proof of concept)(3).");
+				System.out.println("Standard CPU : Beginner(1), Intermediate(2), Hardv2(Broken) (0), Hard(Proof of concept)(3).");
 				System.out.println("SECRET BOSSES: Quickman(4), Airman(5), Crashman(6)");
 				npcLevel=userInput(tab);
 				//User chooses a CPU difficulty level 
@@ -80,7 +82,7 @@ public class GameLogic extends ComputerLogic{
 				}//Can blow the top layer of pieces out their lanes 
 				if(npcLevel==6) {
 					playerName[2] = "Crashman";
-					//Can explode a piece and destroy it before his turn
+					//Can explode a piece and replace it by his own before his turn
 				}else {
 					playerName[2] = "CPU";
 				}//Regular player with increasing complexity 
@@ -106,9 +108,9 @@ public class GameLogic extends ComputerLogic{
 			if(turn==2) {
 				//Player 2's turn 
 				if(gameChoice==1){
-					dripDown(tab, Computerchoice(npcLevel, tab, prevMove, playerName), turn);
+					dripDown(tab, Computerchoice(npcLevel, tab, prevMove, playerName, turnCount), turn);
 					//If player 2 is a computer, we ask the CPU for an input while giving them the necessary info to make a decision
-			
+					turnCount++;
 				}else {
 					int playerInput =userInput(tab);
 					if(playerInput==9){
