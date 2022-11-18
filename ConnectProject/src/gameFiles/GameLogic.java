@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import javax.sound.sampled.LineUnavailableException;
+
 //Main running code 
 public class GameLogic extends ComputerLogic{
 	public static void main(String[]args) throws InterruptedException {
+		
 		//Startup variables
 		int newOrLoad = 0;
 		int gameChoice=0;
@@ -23,11 +26,14 @@ public class GameLogic extends ComputerLogic{
 		playerName[1] = "P1";
 		playerName[2] = "P2";
 		// Names for both players
+		String song = "PvP";
+		//song name
 		
 		System.out.println("NEW GAME(0)  OR  LOAD GAME(1)");
 		newOrLoad=userInputBinary();
 		// We ask the User whether he wants to start a new game or load a saved game
 		if(newOrLoad==1) {
+			
 			try {
 			      File save = new File("saveFile.txt");
 			      Scanner myReader = new Scanner(save);
@@ -52,16 +58,23 @@ public class GameLogic extends ComputerLogic{
 			      playerName[1]=data;
 			      data = myReader.nextLine();
 			      playerName[2]=data;
+			      data = myReader.nextLine();
+			      song=data;
 			        
-			        
+			    //We read the save and prepare the game, 
+			    //assigning all the variables to the information given in the save file  
 			      
 			      myReader.close();
 			    } catch (FileNotFoundException e) {
 			      System.out.println("An error occurred.");
 			      e.printStackTrace();
 			    }//Exception in case no file can be found
+				
+				
 			
-			//We read the save and prepare the game, assigning all the variables to the information given in the save file
+			
+			
+			
 		}else {
 			//New Game
 			System.out.println("Local Multiplayer (0) OR Single Player (1)");
@@ -76,25 +89,45 @@ public class GameLogic extends ComputerLogic{
 				//User chooses a CPU difficulty level 
 				if(npcLevel==4) {
 					playerName[2] = "Quickman";
-				}//Can freeze time and play twice before player can react
+					//Can freeze time and play twice before player can react
+					
+				}
 				if(npcLevel==5) {
 					playerName[2] = "Airman";
-				}//Can blow the top layer of pieces out their lanes 
+					song="Airman";
+					//Can blow the top layer of pieces out their lanes 
+					
+				}
 				if(npcLevel==6) {
 					playerName[2] = "Crashman";
+					song="Crashman";
 					//Can explode a piece and replace it by his own before his turn
+					
+					
 				}else {
 					playerName[2] = "CPU";
-				}//Regular player with increasing complexity 
+					song="BossBattle";
+					
+				}
 				
 			}
 				
 			
-			System.out.println("Who Goes first? P1(0) or P2(1)");
+			System.out.println("Who Goes first? P1(0) or "+playerName[2]+"(1)");
 			turn=userInputBinary()+1;
 			//User chooses who starts
 		}
-
+		//Music Player
+		
+		try {
+			playMusic("src/Music/"+song+".wav", 1000);
+			//CPU theme 
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		
 		//Game Code 
 		
@@ -114,7 +147,7 @@ public class GameLogic extends ComputerLogic{
 				}else {
 					int playerInput =userInput(tab);
 					if(playerInput==9){
-						saveFile(tab, gameChoice, npcLevel, turn, prevMove, playerName);
+						saveFile(tab, gameChoice, npcLevel, turn, prevMove, playerName, song);
 						System.out.println("GAME SAVED! SEE YOU LATER");
 						break outer ;
 						//Pressing 9 saves the game in a new file and ends the game loop
@@ -129,7 +162,7 @@ public class GameLogic extends ComputerLogic{
 				//P1's turn
 				int playerInput = userInput(tab);
 				if(playerInput==9){
-					saveFile(tab, gameChoice, npcLevel, turn, prevMove, playerName);
+					saveFile(tab, gameChoice, npcLevel, turn, prevMove, playerName, song);
 					System.out.println("GAME SAVED! SEE YOU LATER");
 					break outer ;
 					//Save as seen previously

@@ -6,6 +6,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 public class GameTools {
 	
 	public static int randomNum(int min, int max) {
@@ -122,7 +128,7 @@ public class GameTools {
 		}
 	}
 	
-	public static void saveFile(int[][] tab, int gameChoice, int npcLevel, int turn, int prevMove, String[] playerNames) { 
+	public static void saveFile(int[][] tab, int gameChoice, int npcLevel, int turn, int prevMove, String[] playerNames, String song) { 
 	    File save = new File("saveFile.txt"); //new file type to save our data in 
 	    if (save.delete()) { //if a save already exists, we delete it so we can replace it
 	      System.out.println("Quick save (quicksaves can only be loaded once and will be replaced)" );
@@ -156,6 +162,8 @@ public class GameTools {
 	            bw.write(playerNames[1]+"");
 	            bw.newLine();
 	            bw.write(playerNames[2]+"");
+	            bw.newLine();
+	            bw.write(song);
 	            //followed by the remaining important variables
 	            
 	            bw.close();
@@ -168,11 +176,35 @@ public class GameTools {
 	        System.out.println("An error occurred, save has failed.");
 	        //Error and exception messages in case an error occurs during the save process 
 	      }
-	  } 
+	} 
 	
+	public static void playMusic(String musicLocation, int loopCount) throws LineUnavailableException {
+		//Music theme player
+		try {
+			File musicPath= new File(musicLocation);
+			if(musicPath.exists()) {
+			
+				AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+				Clip enemyTheme = AudioSystem.getClip();
+				enemyTheme.open(audioInput);
+				enemyTheme.start();
+				enemyTheme.loop(loopCount);
+				//Creates a new music clip to be played on loop
+			}else {
+				System.out.println("Can't find file");
+			}
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+}
 	
 	  
 	
-}
+
 
 
