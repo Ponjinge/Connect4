@@ -9,6 +9,10 @@ import java.util.Scanner;
 
 public class GameTools {
 	
+	public static int randomNum(int min, int max) {
+		return (int) ((Math.random() * (max - min)) + min);
+	}
+	
 	public static int[][] dripDown( int[][] tab, int column , int turn) {
 	    int i=0;
 	    tab[i][column]=turn;
@@ -58,11 +62,14 @@ public class GameTools {
 	}
 	
 	public static int[][] tableReset(int[][] tab , int column){
-	    int i=0;
-		while(tab[i][column]==0){
-			i++;
+	    int pointer=0;
+		while(pointer<tab.length && tab[pointer][column]==0){
+			pointer=pointer+1;
 	    }
-	    tab[i][column]=0;
+		if(pointer<tab.length) {
+			tab[pointer][column]=0;
+		}
+	    
 	    return tab;
 	}
 
@@ -119,7 +126,7 @@ public class GameTools {
 	    }
 	    
 	    try {
-	        save = new File("filename.txt");
+	        save = new File("saveFile.txt");
 	        if (save.createNewFile()) {
 	          System.out.println("Quick save created");
 	          FileWriter fw = new FileWriter(save.getAbsoluteFile());
@@ -157,39 +164,8 @@ public class GameTools {
 	      }
 	  } 
 	
-	public static void fileReader(int[][] tab, int gameChoice, int npcLevel, int turn, int prevMove, String[] playerName) {
-	    try {
-	      File save = new File("filename.txt");
-	      Scanner myReader = new Scanner(save);
-	      for(int i=0;i<tab.length;i++) {
-          	for(int j=0;j<tab[0].length;j++) {
-          		String data = myReader.nextLine();
-    	        tab[i][j]=Integer.parseInt(data);
-    	        
-          	}
-	      }
-	      
-	      String data = myReader.nextLine();
-	      gameChoice=Integer.parseInt(data);
-	      data = myReader.nextLine();
-	      npcLevel=Integer.parseInt(data);
-	      data = myReader.nextLine();
-	      turn=Integer.parseInt(data);
-	      data = myReader.nextLine();
-	      prevMove=Integer.parseInt(data);
-	      data = myReader.nextLine();
-	      playerName[1]=data;
-	      data = myReader.nextLine();
-	      playerName[2]=data;
-	        
-	        
-	      
-	      myReader.close();
-	    } catch (FileNotFoundException e) {
-	      System.out.println("An error occurred.");
-	      e.printStackTrace();
-	    }
-	  }
+	
+	  
 	
 }
 
